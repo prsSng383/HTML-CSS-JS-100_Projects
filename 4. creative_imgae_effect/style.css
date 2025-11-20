@@ -1,0 +1,50 @@
+*{
+    margin: 0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+html,body{
+    background: gainsboro;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container{
+    position: relative;
+    height: 500px;
+    width: 800px;
+    background: black;
+}
+
+.clip1 , .clip2 , .clip3{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    object-fit: cover;
+    inset: 0;
+    transition: all 0.7s ease;
+}
+
+.clip1{
+    z-index: 1;
+    clip-path: polygon(0 0, 20% 0, 30% 100%, 0 100%);
+}
+.clip2{
+    z-index: 1;
+    clip-path: polygon(20% 0, 80% 0, 70% 100%, 30% 100%);
+    
+}
+
+.clip3{
+    z-index: 1;
+    clip-path: polygon(80% 0, 100% 0, 100% 100%, 70% 100%);
+
+}
+
+.clip1:hover, .clip2:hover, .clip3:hover {
+    z-index: 999;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
