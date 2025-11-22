@@ -48,3 +48,5 @@ html,body{
     z-index: 999;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
 }
+
+/* To learn : z-index and about clip-path */
