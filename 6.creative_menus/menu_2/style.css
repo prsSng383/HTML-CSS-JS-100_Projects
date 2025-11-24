@@ -1,0 +1,131 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container{
+    height: 100vh;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav{
+    display: flex;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: bold;
+    
+}
+
+.nav div{
+    padding: 1rem 2rem;
+    position: relative;
+    background-color: transparent;
+    z-index: 1;
+}
+/* Home */
+.home , .services{
+    transition: all 0.8s;
+}
+
+.home:before , .services:before{
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    scale: 0;
+    transition: all 0.8s;
+    z-index: -1;
+    background-color: red;
+}
+
+.home:after , .services:after{
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 100%;
+   top:-3px;
+   left: 0;
+   opacity: 0;
+   transform: scaleY(160%);
+    background-color: transparent;
+    transition: all 0.8s;
+    border-top:3px solid red ;
+    border-bottom: 3px solid red;
+    z-index: -2;
+}
+
+.home,
+.about,
+.services,
+.portfolio,
+.contact {
+    transition: all 0.8s;
+}
+
+.home:before,
+.about:before,
+.services:before,
+.portfolio:before,
+.contact:before {
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    scale: 0;
+    transition: all 0.8s;
+    z-index: -1;
+    background-color: red;
+}
+
+.home:after,
+.about:after,
+.services:after,
+.portfolio:after,
+.contact:after {
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: -3px;
+    left: 0;
+    opacity: 0;
+    transform: scaleY(160%);
+    background-color: transparent;
+    transition: all 0.8s;
+    border-top: 3px solid red;
+    border-bottom: 3px solid red;
+    z-index: -2;
+}
+
+.home:hover,
+.about:hover,
+.services:hover,
+.portfolio:hover,
+.contact:hover {
+    color: white;
+}
+
+.home:hover:before,
+.about:hover:before,
+.services:hover:before,
+.portfolio:hover:before,
+.contact:hover:before {
+    scale: 1;
+}
+
+.home:hover:after,
+.about:hover:after,
+.services:hover:after,
+.portfolio:hover:after,
+.contact:hover:after {
+    opacity: 100;
+    transform: scaleY(110%);
+}

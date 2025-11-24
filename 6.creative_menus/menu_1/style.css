@@ -1,0 +1,163 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container{
+    height: 100vh;
+    background-color: black;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav{
+    display: flex;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.nav div{
+
+    padding: 2rem;
+    position: relative;
+}
+
+
+
+.home:before{
+    content: "";
+    position: absolute;
+    height: 25px;
+    width: 25px;
+    top: -3px;
+    left: -3px;
+    border-top: 3px solid white;
+    opacity: 0;
+    transition: all 0.8s;
+}
+
+.home:after{
+    content: "";
+    position: absolute;
+    height: 25px;
+    width: 25px;
+    bottom: -3px;
+    right:-3px;
+    transition: all 0.8s;
+    border-bottom: 3px solid white;
+    opacity: 0;
+}
+
+.about:before{
+    content: "";
+    position: absolute;
+    height: 25px;
+    width: 25px;
+    top: -3px;
+    left: -3px;
+    border-top: 3px solid white;
+    opacity: 0;
+    transition: all 0.8s;
+}
+
+.about:after{
+    content: "";
+    position: absolute;
+    height: 25px;
+    width: 25px;
+    bottom: -3px;
+    right:-3px;
+    transition: all 0.8s;
+    border-bottom: 3px solid white;
+    opacity: 0;
+}
+
+.services:before{
+    content: "";
+    position: absolute;
+    height: 25px;
+    width: 25px;
+    top: -3px;
+    left: -3px;
+    border-top: 3px solid white;
+    opacity: 0;
+    transition: all 0.8s;
+}
+
+.services:after{
+    content: "";
+    position: absolute;
+    height: 25px;
+    width: 25px;
+    bottom: -3px;
+    right:-3px;
+    transition: all 0.8s;
+    border-bottom: 3px solid white;
+    opacity: 0;
+}
+
+.portfolio:before{
+    content: "";
+    position: absolute;
+    height: 25px;
+    width: 25px;
+    top: -3px;
+    left: -3px;
+    border-top: 3px solid white;
+    opacity: 0;
+    transition: all 0.8s;
+}
+
+.portfolio:after{
+    content: "";
+    position: absolute;
+    height: 25px;
+    width: 25px;
+    bottom: -3px;
+    right:-3px;
+    transition: all 0.8s;
+    border-bottom: 3px solid white;
+    opacity: 0;
+}
+
+.contact:before{
+    content: "";
+    position: absolute;
+    height: 25px;
+    width: 25px;
+    top: -3px;
+    left: -3px;
+    border-top: 3px solid white;
+    opacity: 0;
+    transition: all 0.8s;
+}
+
+.contact:after{
+    content: "";
+    position: absolute;
+    height: 25px;
+    width: 25px;
+    bottom: -3px;
+    right:-3px;
+    transition: all 0.8s;
+    border-bottom: 3px solid white;
+    opacity: 0;
+}
+
+.home:hover:before , 
+.home:hover:after,
+.about:hover:before,
+.about:hover:after,
+.services:hover:before,
+.services:hover:after, 
+.portfolio:hover:before,
+.portfolio:hover:after,
+.contact:hover:before,
+.contact:hover:after{
+   opacity: 1;
+    width: 100%;
+}
