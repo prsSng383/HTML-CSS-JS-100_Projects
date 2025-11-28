@@ -1,0 +1,54 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    height: 100vh;
+    background: linear-gradient(#0F2027 , #203A43 , #2C5364);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container{
+ 
+    position: relative;
+    font-size: 2rem;
+    padding: 1rem 2rem;
+    font-weight: bold;
+    cursor: pointer;
+    color: white;
+}
+
+.tool {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: black;
+    color: yellow;
+    white-space: nowrap;
+    padding: 10px 15px;
+    border-radius: 7px;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+
+.tool:before{
+    content: "";
+    position: absolute;
+    height: 25px;
+    width: 25px;
+    top: 80%;
+    left: 40%;
+    transform: rotate(45deg);
+    background-color: black;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+
+.container:hover .tool , .tool:before{
+    opacity: 1;
+}
