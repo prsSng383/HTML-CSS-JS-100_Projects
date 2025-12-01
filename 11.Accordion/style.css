@@ -59,6 +59,7 @@ span{
     transition: all 0.8s;
 }
 
+/* + means the next element , not the child element */
 #accordion li input[type="radio"]:checked + .content{
     height: 100px;
     color: red;

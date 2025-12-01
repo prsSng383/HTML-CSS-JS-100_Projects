@@ -1,0 +1,52 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.container{
+    height: 70vh;
+    width: 30vw;
+    background-color: black;
+    color: white;
+    padding: 1rem;
+    
+}
+
+.content{
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    padding: 1rem;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+
+p{
+    font-size: 20px;
+}
+
+.content::-webkit-scrollbar{
+    width: 2rem;
+}
+
+.content::-webkit-scrollbar-thumb{
+    background: linear-gradient(to top, red , yellow , green);
+    border-radius: 20px;
+}
+
+.content::-webkit-scrollbar-track{
+    background: linear-gradient(to right , gray , white);
+    border-radius: 20px;
+}
+
+

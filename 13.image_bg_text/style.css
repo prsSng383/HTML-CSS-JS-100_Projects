@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Prata&family=Science+Gothic:wght@100..900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    font-family: "Outfit", sans-serif;
+
+}
+
+.content{
+    color: whitesmoke;
+    font-size: 10rem;
+    font-weight: bold;
+    background-image: url("/13.image_bg_text/jeremy-bishop-EwKXn5CapA4-unsplash.jpg");   
+    background-size:cover;
+    background-position:bottom;
+    background-clip:text;
+    -webkit-text-stroke: 4px;
+    -webkit-text-stroke-color: rgb(218, 127, 46);
+    color: transparent;
+    
+}
