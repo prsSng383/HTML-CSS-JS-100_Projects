@@ -1,0 +1,55 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    height: 100vh;
+    background-color: black;
+    color: whitesmoke;
+    padding: 2rem 10rem;
+    font-family: sans-serif;
+
+}
+
+.content{
+    border: 1px solid;
+    padding: 10px 20px;
+    position: relative;
+}
+
+section{
+    border: 1px solid;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+
+section h1{
+    font-size: 3rem;
+    text-decoration:line-through;
+    margin-bottom: 10px;
+}
+
+section p{
+    font-size: 1.1rem;
+}
+
+/* height of the bar , that was at the top  */
+/* fixed , so it stick to the screen  */
+.scroll-indigator{
+    height: 10px;
+    width: 100%;
+    position: fixed;
+    top:10px;
+    left: 0;
+    border-radius: 3px;
+}
+
+.scroll-indigator .progress{
+    height: 100%;
+    border-radius: 3px;
+    background: linear-gradient(90deg, #ffdeea 0.000%, #ffdeea 20.000%, #fdedff calc(20.000% + 1px), #fdedff 40.000%, #ecfcff calc(40.000% + 1px), #ecfcff 60.000%, #d1ffff calc(60.000% + 1px), #d1ffff 80.000%, #b5fffb calc(80.000% + 1px) 100.000%);
+    transition: width 0.1s;
+}

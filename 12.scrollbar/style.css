@@ -9,6 +9,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: rgb(153, 153, 153);
 }
 
 

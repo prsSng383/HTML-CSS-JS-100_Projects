@@ -1,0 +1,77 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:rgb(3, 3, 49);
+}
+
+.gray-heart{
+    height: 100px;
+    width: 100px;
+    background-color: gray;
+    position: relative;
+    transform: rotate(-45deg);
+    
+}
+
+.gray-heart::before,
+.gray-heart::after{
+
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: var(--my-bg-color , gray);
+    border-radius: 50px;
+}
+
+.gray-heart::before{
+    top: -50px;
+    left: 0px;
+}
+
+.gray-heart::after{
+    top: 0;
+    right: -50px;
+}
+/* just making heart shape using CSS , nothing logical thill here */
+
+.red-heart{
+    height: 100px;
+    width: 100px;
+    background-color: red;
+    position: absolute;
+    transform: rotate(-45deg);
+    scale: 2;
+    visibility: hidden;
+    transition: all 0.4s;
+}
+
+.red-heart::before,
+.red-heart::after{
+
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: red;
+    border-radius: 50px;
+}
+
+.red-heart::before{
+    top: -50px;
+    left: 0px;
+}
+
+.red-heart::after{
+    top: 0;
+    right: -50px;
+}
+/* same for the red part */

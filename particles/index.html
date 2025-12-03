@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calibrated Swipe Model</title>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #050505; font-family: 'Segoe UI', sans-serif; }
+        
+        /* Video hidden, used for processing */
+        #input-video { position: absolute; opacity: 0; pointer-events: none; z-index: -1; }
+        
+        /* UI Container */
+        #ui-container {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        /* Glassmorphism Panel */
+        .panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            color: white;
+            width: 250px;
+            pointer-events: auto;
+        }
+
+        h2 { margin: 0 0 10px 0; font-size: 16px; color: #a5f3fc; text-transform: uppercase; }
+        .debug-line { display: flex; justify-content: space-between; font-size: 12px; color: #aaa; margin-bottom: 4px; }
+        .val { color: white; font-family: monospace; }
+
+        /* Status Bar */
+        #status {
+            position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+            background: rgba(0,0,0,0.8); padding: 12px 30px; border-radius: 30px;
+            color: white; font-weight: bold; border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.2s; white-space: nowrap;
+        }
+        .active-swipe { background: #0ea5e9 !important; box-shadow: 0 0 20px #0ea5e9; transform: translateX(-50%) scale(1.1) !important; }
+
+    </style>
+</head>
+<body>
+
+    <video id="input-video"></video>
+
+    <div id="ui-container">
+        <div class="panel">
+            <h2>Gesture Tuner</h2>
+            <div class="debug-line"><span>Confidence:</span> <span class="val" id="d-conf">0%</span></div>
+            <div class="debug-line"><span>Movement:</span> <span class="val" id="d-move">Stable</span></div>
+            <div style="font-size: 10px; color: #666; margin-top: 10px; line-height: 1.4;">
+                Calibrated for: Steady Wave<br>
+                Algorithm: History Buffer (7 frames)
+            </div>
+        </div>
+    </div>
+
+    <div id="status">Initializing AI...</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+
+    <script>
+        // --- 1. Three.js Setup ---
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x050505, 0.002);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 30;
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // --- Particles ---
+        let particles;
+        const particleCount = 12000;
+        const geometry = new THREE.BufferGeometry();
+        const positions = [];
+        
+        // Generate a "Galaxy" shape
+        for(let i=0; i<particleCount; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const radius = 5 + Math.random() * 10;
+            const spiral = angle + radius * 0.5;
+            const x = Math.cos(spiral) * radius;
+            const y = Math.sin(spiral) * radius * 0.5; // Flattened
+            const z = (Math.random() - 0.5) * 5;
+            positions.push(x, y, z);
+        }
+        
+        geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+        const material = new THREE.PointsMaterial({ size: 0.4, color: 0x0ea5e9, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending });
+        particles = new THREE.Points(geometry, material);
+        scene.add(particles);
+
+        // --- 2. MOVEMENT LOGIC (Calibrated) ---
+        
+        let targetRotation = 0;
+        let currentRotation = 0;
+        let targetScale = 1;
+        let currentScale = 1;
+
+        // The "History Buffer" - Stores the last N x-positions
+        const historySize = 7; 
+        const xHistory = [];
+        
+        // Cooldown to prevent double-swipes
+        let lastSwipeTime = 0;
+        const COOLDOWN_MS = 1000;
+        
+        // UI Refs
+        const statusEl = document.getElementById('status');
+        const dConf = document.getElementById('d-conf');
+        const dMove = document.getElementById('d-move');
+
+        function handleGestures(landmarks) {
+            const now = Date.now();
+            const handX = landmarks[0].x; // 0.0 (Left) to 1.0 (Right)
+
+            // 1. Update History
+            xHistory.push(handX);
+            if (xHistory.length > historySize) xHistory.shift();
+
+            // Need full history to judge
+            if (xHistory.length < historySize) return;
+
+            // 2. Analyze Trend
+            // We calculate the movement from the start of the buffer to the end
+            const totalMove = xHistory[historySize - 1] - xHistory[0];
+            
+            // Debug Output
+            dConf.innerText = Math.round(Math.abs(totalMove) * 100) + "%";
+            
+            // 3. Trigger Logic
+            // Threshold calibrated to 0.15 (15% of screen width) based on your video
+            if (Date.now() - lastSwipeTime > COOLDOWN_MS) {
+                
+                if (totalMove < -0.15) { 
+                    // Moved significantly Left (Screen coordinates are mirrored usually)
+                    // In camera view: Left movement usually decreases X
+                    triggerSwipe('left');
+                } 
+                else if (totalMove > 0.15) {
+                    // Moved significantly Right
+                    triggerSwipe('right');
+                }
+                else {
+                    dMove.innerText = "Steady";
+                    dMove.style.color = "#aaa";
+                }
+            }
+        }
+
+        function triggerSwipe(dir) {
+            lastSwipeTime = Date.now();
+            statusEl.classList.add('active-swipe');
+            
+            if (dir === 'right') {
+                statusEl.innerText = "👉 SWIPE RIGHT";
+                dMove.innerText = ">>> RIGHT";
+                dMove.style.color = "#0ea5e9";
+                targetRotation += Math.PI * 2; // Spin 360
+            } else {
+                statusEl.innerText = "👈 SWIPE LEFT";
+                dMove.innerText = "LEFT <<<";
+                dMove.style.color = "#0ea5e9";
+                targetRotation -= Math.PI * 2; // Spin -360
+            }
+
+            // Reset UI
+            setTimeout(() => {
+                statusEl.classList.remove('active-swipe');
+                statusEl.innerText = "Ready";
+                // Clear history to prevent recoil
+                xHistory.length = 0;
+            }, 1000);
+        }
+
+        function handleZoom(landmarks1, landmarks2) {
+            const dist = Math.sqrt(
+                Math.pow(landmarks1[0].x - landmarks2[0].x, 2) + 
+                Math.pow(landmarks1[0].y - landmarks2[0].y, 2)
+            );
+            // Map 0.1-0.6 distance to 0.5-2.5 scale
+            targetScale = 0.5 + (dist * 4);
+            statusEl.innerText = "👐 Zooming";
+        }
+
+        // --- 3. MediaPipe Setup ---
+        const videoElement = document.getElementById('input-video');
+        const hands = new Hands({locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`});
+        
+        hands.setOptions({
+            maxNumHands: 2,
+            modelComplexity: 1,
+            minDetectionConfidence: 0.5,
+            minTrackingConfidence: 0.5
+        });
+
+        hands.onResults((results) => {
+            if (results.multiHandLandmarks && results.multiHandLandmarks.length === 2) {
+                handleZoom(results.multiHandLandmarks[0], results.multiHandLandmarks[1]);
+            } else if (results.multiHandLandmarks && results.multiHandLandmarks.length === 1) {
+                targetScale = 1;
+                handleGestures(results.multiHandLandmarks[0]);
+            } else {
+                statusEl.innerText = "Show hand to start";
+                targetScale = 1;
+            }
+        });
+
+        const cameraUtils = new Camera(videoElement, {
+            onFrame: async () => { await hands.send({image: videoElement}); },
+            width: 640, height: 480
+        });
+        cameraUtils.start();
+
+        // --- 4. Animation ---
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            // Smooth Physics
+            currentRotation += (targetRotation - currentRotation) * 0.05;
+            currentScale += (targetScale - currentScale) * 0.1;
+
+            if (particles) {
+                particles.rotation.y = currentRotation + (Date.now() * 0.0002);
+                particles.rotation.z = Math.sin(Date.now() * 0.001) * 0.1;
+                particles.scale.set(currentScale, currentScale, currentScale);
+            }
+            
+            renderer.render(scene, camera);
+        }
+        
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        animate();
+    </script>
+</body>
+</html>

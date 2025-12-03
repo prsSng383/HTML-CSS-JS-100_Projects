@@ -21,11 +21,15 @@ body{
     font-size: 10rem;
     font-weight: bold;
     background-image: url("/13.image_bg_text/jeremy-bishop-EwKXn5CapA4-unsplash.jpg");   
+    /* image set to BG */
     background-size:cover;
     background-position:bottom;
     background-clip:text;
+    /* Bg image is clipped to the Text i wrote. */
     -webkit-text-stroke: 4px;
+    /* having text stroke of color kind of dark orange */
     -webkit-text-stroke-color: rgb(218, 127, 46);
+    /* making the text transparent so that the image in the BG is visible */
     color: transparent;
     
 }
