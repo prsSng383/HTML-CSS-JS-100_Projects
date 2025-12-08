@@ -1,0 +1,41 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   
+}
+
+:root{
+    --text : white;
+    --right : 10px;
+     transition: all 0.8s;
+}
+.container{
+
+    background-color: black;
+    height: 100px;
+    width: 300px;
+    border-radius: 50px;
+    position: relative;
+   
+}
+
+.circle{
+    content: "";
+    position: absolute;
+    height: 80px;
+    width: 80px;
+    background-color: var(--text);
+    border-radius: 50px;
+    top: 50px;
+    transform: translateY(-50%);
+    left: var(--right);
+    transition: all 0.8s;
+}

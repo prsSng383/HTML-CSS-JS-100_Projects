@@ -1,0 +1,47 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    height: 100vh;
+    background-color: rgb(154, 153, 153);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+span{
+    font-size: 2rem;
+}
+
+.text{
+    color:whitesmoke;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+.cursor {
+  width: 5px;
+  height: 28px;
+  background-color: rebeccapurple;
+  display: inline-block;
+  margin-left: 4px;
+  animation: blink 1s infinite;
+  vertical-align: bottom; /* important */
+}
+
+.container{
+
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
