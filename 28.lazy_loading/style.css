@@ -1,0 +1,31 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    height : 100vh; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.container{
+    width: 100%;
+    height: 100%;
+    background-image: url(land-o-lakes-inc-qXe3Pw5sZvE-unsplash.jpg); 
+    background-size: cover;
+    background-position: top;
+    filter: blur(100px);   
+}
+
+.loading{
+   position: absolute;    
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   color: red;
+   font-size: 5rem;
+}

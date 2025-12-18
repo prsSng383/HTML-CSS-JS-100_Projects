@@ -1,0 +1,33 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container{
+    height: 100px;
+    width: 100px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0 ,0 ,0 ,0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+
+span{
+    font-size: 1.5rem;
+}
+
+span:nth-child(5){
+    color: red;
+}
+
+.a{cursor: pointer;}
